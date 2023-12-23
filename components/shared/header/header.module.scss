@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  width: 100%;
+  position: fixed;
+  background-color: #f0f0f0;
+
+  .leftSide {
+    display: flex;
+
+    .logo{
+        width: 40px;
+    }
+  }
+
+  .headerItem {
+    padding: 8px 16px;
+    font-size: 20px;
+    transition: 0.3s;
+
+    &:hover{
+        cursor: pointer;
+        opacity: 0.7;
+    }
+  }
+}

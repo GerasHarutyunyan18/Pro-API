@@ -1,0 +1,20 @@
+.container {
+  width: 100%;
+  max-height: 450px;
+  overflow-y: auto;
+  border-radius: 5px;
+  transition: 0.3s;
+
+  .notFoundContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 450px;
+    height: 450px;
+  }
+}
+
+.addAppBtn {
+  margin-top: 10px;
+  width: 100%;
+}

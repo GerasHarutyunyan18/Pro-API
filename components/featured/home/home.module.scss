@@ -1,0 +1,11 @@
+.topContainer {
+  display: flex;
+  justify-content: center;
+  padding: 0 50px;
+  margin-top: 80px;
+  gap: 12px;
+
+  .items {
+    width: 30%;
+  }
+}
