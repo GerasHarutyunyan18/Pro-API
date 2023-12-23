@@ -55,6 +55,7 @@ export default function MyFriends() {
         {[].length ? (
           myApps.map((el) => (
             <Card
+              key={el.id}
               className={styles.item}
               type="inner"
               title={el.name}

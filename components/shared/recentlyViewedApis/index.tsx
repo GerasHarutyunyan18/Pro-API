@@ -41,6 +41,7 @@ export default function RecentlyViewedApis() {
         {myApps.length ? (
           myApps.map((el) => (
             <Card
+              key={el.id}
               className={styles.item}
               type="inner"
               title={el.name}

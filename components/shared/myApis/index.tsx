@@ -44,11 +44,18 @@ export default function MyApis() {
     },
   ];
   return (
-    <Card title={<>My Apps <ApiOutlined/></>}>
+    <Card
+      title={
+        <>
+          My Apps <ApiOutlined />
+        </>
+      }
+    >
       <div className={styles.container}>
         {[].length ? (
           myApps.map((el) => (
             <Card
+              key={el.id}
               className={styles.item}
               type="inner"
               title={el.name}
