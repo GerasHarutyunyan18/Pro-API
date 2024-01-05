@@ -6,7 +6,7 @@ import MyFriends from "@/components/shared/friends";
 
 export default function Home() {
   return (
-    <div>
+    <div className={styles.container}>
       <InfoSection />
       <div className={styles.topContainer}>
         <div className={styles.items}>
@@ -16,7 +16,7 @@ export default function Home() {
           <RecentlyViewedApis />
         </div>
         <div className={styles.items}>
-          <MyFriends/>
+          <MyFriends />
         </div>
       </div>
     </div>

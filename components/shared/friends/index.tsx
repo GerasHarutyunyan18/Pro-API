@@ -66,7 +66,7 @@ export default function MyFriends() {
           ))
         ) : (
           <div className={styles.notFoundContainer}>
-            <Empty description={"Apps not found."} />
+            <Empty description={"There are not friends yet."} />
           </div>
         )}
       </div>

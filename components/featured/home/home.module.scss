@@ -1,11 +1,33 @@
-.topContainer {
-  display: flex;
-  justify-content: center;
-  padding: 0 50px;
-  margin-top: 80px;
-  gap: 12px;
+.container {
+  background-color: var(--body-bg);
+  .topContainer {
+    display: flex;
+    justify-content: center;
+    padding: 0 50px;
+    margin-top: 80px;
+    flex-wrap: wrap;
+    gap: 12px;
 
-  .items {
-    width: 30%;
+    .items {
+      width: 30%;
+    }
+  }
+
+  @media screen and (max-width: 1450px) {
+    .topContainer {
+      .items {
+        width: 40% !important;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .topContainer {
+      padding: 0 !important;
+
+      .items {
+        width: 100% !important;
+      }
+    }
   }
 }
