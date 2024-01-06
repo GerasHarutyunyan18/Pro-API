@@ -9,3 +9,9 @@ export enum ButtonTypes {
     DARK = 'dark',
     LINK = 'link'
 }
+
+export enum ProfileTabKeys {
+    PROFILE = 'profile',
+    SETTINGS = 'settings',
+    PRIVACY = 'privacy'
+}

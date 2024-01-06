@@ -1,0 +1,19 @@
+.container {
+  height: 400px;
+  width: 100%;
+}
+
+.shareTypes {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .shareItems {
+    display: flex;
+    gap: 5px;
+
+    .copyBtn {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  .items {
+    width: 30%;
+  }
+}

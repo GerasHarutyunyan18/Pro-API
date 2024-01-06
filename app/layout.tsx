@@ -9,6 +9,7 @@ import { AuthContextProvider } from "@/contexts/auth";
 
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ProfileSidebarContextProvider } from "@/contexts/profileSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,9 @@ export default function RootLayout({
         <AuthContextProvider>
           <ThemeProvider>
             <CustomHeader />
-            <div className="contentContainer">{children}</div>
+            <ProfileSidebarContextProvider>
+              <div className="contentContainer">{children}</div>
+            </ProfileSidebarContextProvider>
             <Footer />
           </ThemeProvider>
         </AuthContextProvider>

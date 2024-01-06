@@ -20,7 +20,14 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
       // do call to BE and get user
       // if with token user not found set user null
     } else {
-      // setCurrentUser({ name: "Geras" });
+      // setCurrentUser({
+      //   id: 1,
+      //   name: "John",
+      //   surname: "Doe",
+      //   email: "john@doe.com",
+      //   nickname: "johnDoe",
+      //   url: "http://localhost:3000/account/johnDoe",
+      // });
     }
   }, []);
 
@@ -36,7 +43,7 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuthContext must be used within a MyContextProvider");
+    throw new Error("useAuthContext must be used within a AuthContextProvider");
   }
   return context;
 };

@@ -2,11 +2,13 @@
   --header-bg: #111a2c;
   --header-item-link: #f0f0f0;
   --auth-text: #f0f0f0;
+  --profile-sidebar: #001529;
   --body-bg: #15325b;
 }
 
 [data-theme="light"] {
   --header-bg: #f0f0f0;
+  --profile-sidebar: #ffffff;
   --header-item-link: #212529;
   --auth-text: #212529;
   --body-bg: none;
@@ -32,4 +34,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.ant-layout-sider-children {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ant-layout-sider {
+  background-color: var(--profile-sidebar) !important;
 }
