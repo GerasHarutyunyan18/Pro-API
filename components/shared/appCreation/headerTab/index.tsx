@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import type { GetRef } from "antd";
 import { Form, Input, Table } from "antd";
 import { ButtonTypes } from "@/constants/enums";
 import Button from "@/components/primitives/button";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useApiContext } from "@/contexts/apiContext";
 
-type InputRef = GetRef<typeof Input>;
-type FormInstance<T> = GetRef<typeof Form<T>>;
+type InputRef = any
+type FormInstance<T> = any;
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 

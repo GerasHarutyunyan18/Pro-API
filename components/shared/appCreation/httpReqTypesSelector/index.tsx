@@ -1,7 +1,5 @@
-import {
-  HttpRequestMethods,
-  HttpRequestMethodsOptions,
-} from "@/constants/options";
+import { HttpRequestMethods } from "@/constants/enums";
+import { HttpRequestMethodsOptions } from "@/constants/options";
 import { useApiContext } from "@/contexts/apiContext";
 import { Select } from "antd";
 
