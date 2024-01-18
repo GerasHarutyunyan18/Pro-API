@@ -50,9 +50,9 @@ export default function ParamTab({ id }: ParamTabProps) {
         </Button>
       </div>
       <div className={styles.rightPart}>
-        {api?.params.map((el) => {
+        {api?.params.map((el, index) => {
           return (
-            <div className={styles.parametr}>
+            <div key={index} className={styles.parametr}>
               <div className={styles.item}>
                 <span>{el.name}</span> |{" "}
                 <span>
