@@ -6,10 +6,12 @@ import Footer from "@/components/shared/footer";
 import Icon from "../public/icon.svg";
 import { ThemeProvider } from "next-themes";
 import { AuthContextProvider } from "@/contexts/auth";
+import { ApiContextProvider } from "@/contexts/apiContext";
+import { ProfileSidebarContextProvider } from "@/contexts/profileSidebar";
+import { NotificationContextProvider } from "@/contexts/notification";
 
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ProfileSidebarContextProvider } from "@/contexts/profileSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,15 +30,19 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href={Icon.src} sizes="any" />
       <body className={inter.className}>
-        <AuthContextProvider>
-          <ThemeProvider>
-            <CustomHeader />
-            <ProfileSidebarContextProvider>
-              <div className="contentContainer">{children}</div>
-            </ProfileSidebarContextProvider>
-            <Footer />
-          </ThemeProvider>
-        </AuthContextProvider>
+        <NotificationContextProvider>
+          <AuthContextProvider>
+            <ThemeProvider>
+              <CustomHeader />
+              <ProfileSidebarContextProvider>
+                <ApiContextProvider>
+                  <div className="contentContainer">{children}</div>
+                </ApiContextProvider>
+              </ProfileSidebarContextProvider>
+              <Footer />
+            </ThemeProvider>
+          </AuthContextProvider>
+        </NotificationContextProvider>
       </body>
     </html>
   );

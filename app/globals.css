@@ -29,6 +29,7 @@ body {
 
 .contentContainer {
   margin-top: 50px;
+  min-height: 100vh;
 }
 
 a {
@@ -44,4 +45,28 @@ a {
 
 .ant-layout-sider {
   background-color: var(--profile-sidebar) !important;
+}
+
+.ant-upload-select,
+.ant-upload-list-item-container,
+.ant-upload-list-item-image {
+  width: 100% !important;
+  height: 200px !important;
+}
+
+::-webkit-scrollbar {
+  border-radius: 1px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #15325b;
 }

@@ -82,11 +82,13 @@ export default function Header() {
         {currentUser ? (
           <>
             <div className={`${styles.headerItem} ${styles.hideItem}`}>
-              <Button
-                className={styles.addAppBtn}
-                type={ButtonTypes.PRIMARY}
-                text="Add App"
-              ></Button>
+              <Link href="/createApp">
+                <Button
+                  className={styles.addAppBtn}
+                  type={ButtonTypes.PRIMARY}
+                  text="Add App"
+                ></Button>
+              </Link>
             </div>
             <div className={`${styles.headerItem} ${styles.hideItem}`}>
               <Link href="/profile" className={styles.headerLinks}>
@@ -141,11 +143,13 @@ export default function Header() {
                 </Link>
               </div>
               <div className={styles.headerItem}>
-                <Button
-                  className={styles.addAppBtn}
-                  type={ButtonTypes.PRIMARY}
-                  text="Add App"
-                ></Button>
+                <Link href="/addApp">
+                  <Button
+                    className={styles.addAppBtn}
+                    type={ButtonTypes.PRIMARY}
+                    text="Add App"
+                  ></Button>
+                </Link>
               </div>
             </>
           ) : (

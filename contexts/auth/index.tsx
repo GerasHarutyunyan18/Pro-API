@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "./type";
-import { LocalStorageKeys } from "@/constants/localStorage";
+import { LocalStorageKeys } from "@/constants/objects";
 
 type AuthContextData = {
   currentUser?: User | null;
@@ -20,14 +20,14 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
       // do call to BE and get user
       // if with token user not found set user null
     } else {
-      // setCurrentUser({
-      //   id: 1,
-      //   name: "John",
-      //   surname: "Doe",
-      //   email: "john@doe.com",
-      //   nickname: "johnDoe",
-      //   url: "http://localhost:3000/account/johnDoe",
-      // });
+      setCurrentUser({
+        id: 1,
+        name: "John",
+        surname: "Doe",
+        email: "john@doe.com",
+        nickname: "johnDoe",
+        url: "http://localhost:3000/account/johnDoe",
+      });
     }
   }, []);
 

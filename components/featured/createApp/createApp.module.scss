@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  gap: 10px;
+
+  .info {
+    width: 25%;
+  }
+
+  .apis {
+    width: 100%;
+  }
+}
