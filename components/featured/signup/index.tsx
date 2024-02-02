@@ -4,13 +4,21 @@ import SidebarImage from "@/public/loginSidebarImg.png";
 import Button from "@/components/primitives/button";
 import { ButtonTypes } from "@/constants/enums";
 import Link from "next/link";
-import { Form, Input } from "antd";
+import { Form, Input, Result } from "antd";
+import { AuthService } from "@/services/auth";
+import { useNotificationContext } from "@/contexts/notification";
 
 export default function Register() {
   const [form] = Form.useForm();
+  const { openNotification } = useNotificationContext();
 
-  const onFinish = (values: any) => {
-    console.log("click", values);
+  const onFinish = async (values: any) => {
+    const res = await AuthService.signup(values);
+    if (res?.errors?.length) {
+      res.errors.map((error: string) => {
+        openNotification("error", error);
+      });
+    }
   };
 
   const validatePasswordRepeat = ({ getFieldValue }: any) => ({
@@ -68,7 +76,7 @@ export default function Register() {
               ]}
               name="password"
             >
-              <Input placeholder="Password" />
+              <Input type="password" placeholder="Password" />
             </Form.Item>
             <Form.Item
               rules={[
@@ -77,7 +85,7 @@ export default function Register() {
               ]}
               name="passwordRepeat"
             >
-              <Input placeholder="Password Repeat" />
+              <Input type="password" placeholder="Password Repeat" />
             </Form.Item>
             <Form.Item>
               <Button
