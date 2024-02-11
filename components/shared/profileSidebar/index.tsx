@@ -1,16 +1,18 @@
 "use client";
-import React, { useState } from "react";
-import { LogoutOutlined } from "@ant-design/icons";
+import React from "react";
+import { useTheme } from "next-themes";
 import { Layout, Menu, theme } from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
 import Button from "@/components/primitives/button";
 import { ButtonTypes, ProfileTabKeys } from "@/constants/enums";
 import { useProfileSidebarContext } from "@/contexts/profileSidebar";
-import { useTheme } from "next-themes";
+import { useAuthContext } from "@/contexts/auth";
 
 const { Sider } = Layout;
 
 export default function ProfileSidebar() {
   const { tabs, handleTabChange, currentKey } = useProfileSidebarContext();
+  const { logout } = useAuthContext();
   const { theme } = useTheme();
 
   const handleMenuSelect = ({ key }: { key: React.Key }) => {
@@ -35,7 +37,7 @@ export default function ProfileSidebar() {
           onSelect={handleMenuSelect}
           items={tabs}
         />
-        <Button type={ButtonTypes.DANGER}>
+        <Button type={ButtonTypes.DANGER} onClick={logout}>
           Log Out <LogoutOutlined />
         </Button>
       </Sider>

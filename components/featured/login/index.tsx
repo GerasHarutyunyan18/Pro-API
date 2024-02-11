@@ -1,15 +1,30 @@
 "use client";
-import styles from "./login.module.scss";
+import { Form, Input } from "antd";
+import Link from "next/link";
 import SidebarImage from "@/public/loginSidebarImg.png";
 import Button from "@/components/primitives/button";
 import { ButtonTypes } from "@/constants/enums";
-import Link from "next/link";
-import { Form, Input } from "antd";
+import { useAuthContext } from "@/contexts/auth";
+import { AuthService } from "@/services/auth";
+import { useNotificationContext } from "@/contexts/notification";
+import { LocalStorageKeys } from "@/constants/objects";
+
+import styles from "./login.module.scss";
 
 export default function Login() {
   const [form] = Form.useForm();
-  const onFinish = (values: any) => {
-    console.log("login", values);
+  const { openNotification } = useNotificationContext();
+  const { updateCurrentUser } = useAuthContext();
+
+  const onFinish = async (values: any) => {
+    const res = await AuthService.login(values);
+    if (!res?.success) {
+      openNotification("error", res?.error?.message);
+    } else if (res?.success) {
+      localStorage.setItem(LocalStorageKeys.authToken, res.token);
+      openNotification("success", "Successfully logged in.");
+      updateCurrentUser(res.user);
+    }
   };
 
   return (
@@ -29,9 +44,9 @@ export default function Login() {
           >
             <Form.Item
               rules={[{ required: true, message: "Please input your email!" }]}
-              name="email"
+              name="nickname"
             >
-              <Input placeholder="Email" />
+              <Input placeholder="Nickname" />
             </Form.Item>
             <Form.Item
               rules={[
@@ -39,7 +54,7 @@ export default function Login() {
               ]}
               name="password"
             >
-              <Input placeholder="Password" />
+              <Input type="password" placeholder="Password" />
             </Form.Item>
             <Form.Item>
               <Button

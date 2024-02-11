@@ -20,7 +20,13 @@ const CustomModal: React.FC<ModalProps> = ({
   };
 
   return (
-    <Modal title={title} open={isOpen} footer={null} onCancel={handleClose}>
+    <Modal
+      centered
+      title={title}
+      open={isOpen}
+      footer={null}
+      onCancel={handleClose}
+    >
       {children}
     </Modal>
   );

@@ -1,16 +1,20 @@
 "use client";
-import styles from "./signup.module.scss";
+import Link from "next/link";
+import { Form, Input } from "antd";
 import SidebarImage from "@/public/loginSidebarImg.png";
 import Button from "@/components/primitives/button";
 import { ButtonTypes } from "@/constants/enums";
-import Link from "next/link";
-import { Form, Input, Result } from "antd";
 import { AuthService } from "@/services/auth";
 import { useNotificationContext } from "@/contexts/notification";
+import { useAuthContext } from "@/contexts/auth";
+import { LocalStorageKeys } from "@/constants/objects";
+
+import styles from "./signup.module.scss";
 
 export default function Register() {
   const [form] = Form.useForm();
   const { openNotification } = useNotificationContext();
+  const { updateCurrentUser } = useAuthContext();
 
   const onFinish = async (values: any) => {
     const res = await AuthService.signup(values);
@@ -18,6 +22,9 @@ export default function Register() {
       res.errors.map((error: string) => {
         openNotification("error", error);
       });
+    } else if (res?.success) {
+      localStorage.setItem(LocalStorageKeys.authToken, res.token);
+      updateCurrentUser(res.user);
     }
   };
 

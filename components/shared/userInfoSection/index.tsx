@@ -34,7 +34,7 @@ export default function UserInfoSection() {
       <Card style={{ width: "100%", height: "100%" }} title="Personal Info">
         <p>
           <b>ID : </b>
-          {currentUser?.id}
+          {currentUser?._id}
         </p>
         <p>
           <b>Email : </b>
