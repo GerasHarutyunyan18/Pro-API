@@ -2,12 +2,13 @@
 import Button from "@/components/primitives/button";
 import { ButtonTypes } from "@/constants/enums";
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
-import { Card, Input } from "antd";
+import { Alert, Card, Input } from "antd";
 import ApiIPropsTabs from "../apiIPropsTabs";
 import ApiTypesSelector from "../httpReqTypesSelector";
 import { useApiContext } from "@/contexts/apiContext";
 
 import styles from "./apiCreations.module.scss";
+import { useEffect } from "react";
 
 export default function APICreations() {
   const { createEmptyApi, apis, removeApi, changeEndpoint } = useApiContext();
@@ -23,23 +24,24 @@ export default function APICreations() {
     >
       {apis.map((el) => (
         <Card
-          title={<ApiTypesSelector id={el.id} current={el.method} />}
-          key={el.id}
+          title={<ApiTypesSelector id={el._id} current={el.method} />}
+          key={el._id}
           extra={
             <CloseOutlined
               onClick={() => {
-                removeApi(el.id);
+                removeApi(el._id);
               }}
             />
           }
         >
+          {el.error && <Alert className={styles.error} showIcon message={el.error} type="error" />}
           <Input
             placeholder="Endpoint"
             value={el.endpoint}
-            onChange={(event) => changeEndpoint(el.id, event.target.value)}
+            onChange={(event) => changeEndpoint(el._id, event.target.value)}
           />
           <div>
-            <ApiIPropsTabs id={el.id} />
+            <ApiIPropsTabs id={el._id} />
           </div>
         </Card>
       ))}

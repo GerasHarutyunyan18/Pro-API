@@ -5,7 +5,7 @@ import Button from "@/components/primitives/button";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useApiContext } from "@/contexts/apiContext";
 
-type InputRef = any
+type InputRef = any;
 type FormInstance<T> = any;
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
@@ -117,7 +117,8 @@ interface DataType {
 type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
 interface HeaderTabProps {
-  id: number;
+  id: string;
+  view?: boolean;
 }
 
 export default function HeaderTab({ id }: HeaderTabProps) {

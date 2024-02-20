@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: whitesmoke;
+
+  .header {
+    border-bottom: 1px solid #ccc;
+    height: 30px;
+  }
+
+  .content{
+    margin-top: 10px;
+
+    .copyBtn{
+      padding: 0 3px;
+    }
+  }
+
+  .headerItem {
+    display: flex;
+    justify-content: space-between;
+
+    .key,
+    .value {
+      padding: 8px 16px;
+      width: 50%;
+      border: 1px solid #ccc;
+
+    }
+  }
+}

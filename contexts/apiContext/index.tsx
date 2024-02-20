@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Api, Header, Parameter } from "./type";
 import { HttpRequestMethods, ValueTypes } from "@/constants/enums";
 import { useNotificationContext } from "../notification";
@@ -7,16 +7,19 @@ import { DefaultHeader } from "@/constants/objects";
 
 type ApiContextData = {
   createEmptyApi: () => void;
-  removeApi: (id: number) => void;
-  changeEndpoint: (id: number, value: string) => void;
-  changeHttpMethod: (id: number, value: HttpRequestMethods) => void;
-  addParameter: (id: number, parameter: Parameter) => void;
-  deleteParameter: (id: number, name: string) => void;
-  changeParamType: (id: number, name: string, type: ValueTypes) => void;
-  changeHeaderValue: (id: number, value: Header[]) => void;
-  deleteHeaderItem: (id: number, headerId: number) => void;
-  addEmptyHeader: (id: number) => void;
-  getById: (id: number) => Api | undefined;
+  removeApi: (id?: string) => void;
+  changeEndpoint: (id: string, value: string) => void;
+  changeHttpMethod: (id: string, value: HttpRequestMethods) => void;
+  addParameter: (id: string, parameter: Parameter) => void;
+  deleteParameter: (id: string, name: string) => void;
+  changeParamType: (id: string, name: string, type: ValueTypes) => void;
+  changeHeaderValue: (id: string, value: Header[]) => void;
+  deleteHeaderItem: (id: string, headerId: number) => void;
+  addEmptyHeader: (id: string) => void;
+  getById: (id: string) => Api | undefined;
+  changeApiBody: (id: string, value: string) => void;
+  validateApis: () => boolean;
+  setApi: (value: Api[]) => void;
   apis: Api[];
 };
 
@@ -25,15 +28,25 @@ const ApiContext = createContext<ApiContextData | undefined>(undefined);
 export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [apis, setApi] = useState<Api[]>([]);
+  const [apis, setApi] = useState<Api[]>([
+    {
+      _id: "1",
+      method: HttpRequestMethods.GET,
+      endpoint: "",
+      params: [],
+      body: "",
+      headers: DefaultHeader,
+    },
+  ]);
   const { openNotification } = useNotificationContext();
 
   // creating empty API object in list, working with Add button in createApp page
   const createEmptyApi = () => {
+    const lastApi = apis[apis.length - 1];
+    const id = lastApi?._id ? lastApi._id + apis.length : "1";
     const newApi: Api = {
-      id: 1,
+      _id: id,
       method: HttpRequestMethods.GET,
-      appId: 10,
       endpoint: "",
       params: [],
       body: "",
@@ -43,13 +56,16 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // deleting API from state with given `id`
-  const removeApi = (id: number) => {
-    setApi(apis.filter((el) => el.id !== id));
+  const removeApi = (id?: string) => {
+    if (!id) {
+      return;
+    }
+    setApi(apis.filter((el) => el._id !== id));
   };
 
   // changing endpoint value of API with given `id` and `value`
-  const changeEndpoint = (id: number, value: string) => {
-    const api = apis.find((el) => el.id === id);
+  const changeEndpoint = (id: string | undefined, value: string) => {
+    const api = apis.find((el) => el._id === id);
     if (!api) {
       return;
     }
@@ -81,7 +97,7 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setApi(
       apis.map((el) => {
-        if (el.id === id) {
+        if (el._id === id) {
           return { ...el, endpoint: value, params };
         }
         return el;
@@ -90,10 +106,10 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // changing API http request method with given `id` and `value`
-  const changeHttpMethod = (id: number, value: HttpRequestMethods) => {
+  const changeHttpMethod = (id: string, value: HttpRequestMethods) => {
     setApi(
       apis.map((el) => {
-        if (el.id === id) {
+        if (el._id === id) {
           return { ...el, method: value };
         }
         return el;
@@ -102,7 +118,7 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // add parameter to API with given `id`
-  const addParameter = (id: number, parameter: Parameter) => {
+  const addParameter = (id: string, parameter: Parameter) => {
     if (!parameter.name) {
       openNotification("error", "Pls give name to your parameter.");
       return;
@@ -114,7 +130,7 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     const isExist = apis
-      .find((el) => el.id === id)
+      .find((el) => el._id === id)
       ?.params.find((param) => param.name === parameter.name);
 
     if (isExist) {
@@ -127,7 +143,7 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setApi(
       apis.map((el) => {
-        if (el.id === id) {
+        if (el._id === id) {
           return {
             ...el,
             endpoint: el.endpoint + `/${"${" + parameter?.name + "}"}`,
@@ -140,11 +156,11 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // delete parametr from API with `name` and `id`
-  const deleteParameter = (id: number, name: string) => {
+  const deleteParameter = (id: string, name: string) => {
     const valueOnEndpoint = "/${" + name + "}";
     setApi(
       apis.map((el) => {
-        if (el.id === id) {
+        if (el._id === id) {
           const endpoint = el.endpoint.includes(valueOnEndpoint)
             ? el.endpoint.replace(valueOnEndpoint, "")
             : el.endpoint;
@@ -161,10 +177,10 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // changing parametr type in list
-  const changeParamType = (id: number, name: string, type: ValueTypes) => {
+  const changeParamType = (id: string, name: string, type: ValueTypes) => {
     setApi(
       apis.map((el) => {
-        if (el.id === id) {
+        if (el._id === id) {
           return {
             ...el,
             params: el.params.map((el) =>
@@ -178,10 +194,10 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // change header
-  const changeHeaderValue = (id: number, value: Header[]) => {
+  const changeHeaderValue = (id: string, value: Header[]) => {
     setApi(
       apis.map((el) => {
-        if (el.id === id) {
+        if (el._id === id) {
           return { ...el, headers: value };
         }
         return el;
@@ -190,10 +206,10 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // delete header with id
-  const deleteHeaderItem = (id: number, headerId: number) => {
+  const deleteHeaderItem = (id: string, headerId: number) => {
     setApi(
       apis.map((el) => {
-        if (el.id === id) {
+        if (el._id === id) {
           return {
             ...el,
             headers: el.headers.filter((el) => el.id !== headerId),
@@ -205,10 +221,10 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // add empty header
-  const addEmptyHeader = (id: number) => {
+  const addEmptyHeader = (id: string) => {
     setApi(
       apis.map((el) =>
-        el.id === id
+        el._id === id
           ? {
               ...el,
               headers: [
@@ -228,8 +244,39 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // find API with id
-  const getById = (id: number) => {
-    return apis.find((el) => el.id === id);
+  const getById = (id: string) => {
+    return apis.find((el) => el._id === id);
+  };
+
+  // change api body
+  const changeApiBody = (id: string, value: string): void => {
+    setApi(apis.map((el) => (el._id === id ? { ...el, body: value } : el)));
+  };
+
+  // validating all apis
+  const validateApis = (): boolean => {
+    let isThereErros = true;
+
+    const res = apis.map((el) => {
+      if (!el.endpoint) {
+        isThereErros = false;
+        return { ...el, error: "Endpoint is missing." };
+      }
+
+      if (el.body) {
+        try {
+          JSON.parse(el.body);
+        } catch {
+          isThereErros = false;
+          return { ...el, error: "Body is not JSON." };
+        }
+      }
+
+      return { ...el, error: "" };
+    });
+
+    setApi(res);
+    return isThereErros;
   };
 
   const contextValue: ApiContextData = {
@@ -244,6 +291,9 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
     changeHeaderValue,
     deleteHeaderItem,
     addEmptyHeader,
+    changeApiBody,
+    validateApis,
+    setApi,
     apis,
   };
 

@@ -10,10 +10,11 @@ import TextArea from "antd/es/input/TextArea";
 import styles from "./paramTab.module.scss";
 
 interface ParamTabProps {
-  id: number;
+  id: string;
+  view?: boolean;
 }
 
-export default function ParamTab({ id }: ParamTabProps) {
+export default function ParamTab({ id, view }: ParamTabProps) {
   const { addParameter, getById, deleteParameter, changeParamType } =
     useApiContext();
   const [name, setName] = useState<string>("");
@@ -24,31 +25,33 @@ export default function ParamTab({ id }: ParamTabProps) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftPart}>
-        <Input
-          placeholder="Name"
-          value={name}
-          onChange={(el) => setName(el.target.value)}
-        />
-        <Select
-          placeholder="Type"
-          optionFilterProp="children"
-          options={ParamTypeOptions}
-          value={type}
-          onChange={(value) => setType(value)}
-        />
-        <TextArea
-          onChange={(el) => setDescription(el.target.value)}
-          value={description}
-          placeholder="Description"
-        ></TextArea>
-        <Button
-          type={ButtonTypes.WARNING}
-          onClick={() => addParameter(id, { name, type, description })}
-        >
-          Add Parameter <PlusOutlined />
-        </Button>
-      </div>
+      {!view && (
+        <div className={styles.leftPart}>
+          <Input
+            placeholder="Name"
+            value={name}
+            onChange={(el) => setName(el.target.value)}
+          />
+          <Select
+            placeholder="Type"
+            optionFilterProp="children"
+            options={ParamTypeOptions}
+            value={type}
+            onChange={(value) => setType(value)}
+          />
+          <TextArea
+            onChange={(el) => setDescription(el.target.value)}
+            value={description}
+            placeholder="Description"
+          ></TextArea>
+          <Button
+            type={ButtonTypes.WARNING}
+            onClick={() => addParameter(id, { name, type, description })}
+          >
+            Add Parameter <PlusOutlined />
+          </Button>
+        </div>
+      )}
       <div className={styles.rightPart}>
         {api?.params.map((el, index) => {
           return (
@@ -61,19 +64,22 @@ export default function ParamTab({ id }: ParamTabProps) {
                     optionFilterProp="children"
                     options={ParamTypeOptions}
                     value={el.type}
+                    disabled={view}
                     onChange={(value) => changeParamType(id, el.name, value)}
                   />
                 </span>
               </div>
-              <Button
-                onClick={() => {
-                  deleteParameter(id, el.name);
-                }}
-                className={styles.deleteBtn}
-                type={ButtonTypes.DANGER}
-              >
-                <DeleteOutlined />
-              </Button>
+              {!view && (
+                <Button
+                  onClick={() => {
+                    deleteParameter(id, el.name);
+                  }}
+                  className={styles.deleteBtn}
+                  type={ButtonTypes.DANGER}
+                >
+                  <DeleteOutlined />
+                </Button>
+              )}
             </div>
           );
         })}

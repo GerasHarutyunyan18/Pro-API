@@ -3,8 +3,13 @@ import ImgCrop from "antd-img-crop";
 import { useState } from "react";
 import { Upload } from "antd";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
+import { useAppContext } from "@/contexts/appContext";
+import testimg from "@/public/infoSection.png";
+
+import styles from "./appLogoUploader.module.scss";
 
 export default function AppLogoUploader() {
+  const { currentApp } = useAppContext();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {

@@ -1,29 +1,38 @@
 "use client";
+import { useApiContext } from "@/contexts/apiContext";
 import { Alert, Typography } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 
-export default function BodyTab() {
-  const [body, setBody] = useState<string>("");
+interface BodyTabProps {
+  id: string;
+  view?: boolean;
+}
+
+export default function BodyTab({ id, view }: BodyTabProps) {
+  const { changeApiBody, getById } = useApiContext();
+  const api = getById(id);
   const onChange = (value: string) => {
-    setBody(value);
+    changeApiBody(id, value);
   };
 
   return (
     <div>
-      <TextArea
-        onChange={(ev) => onChange(ev.target.value)}
-        placeholder="Body"
-        style={{ minHeight: 200 }}
-      ></TextArea>
-      {body.length ? (
+      {!view && (
+        <TextArea
+          onChange={(ev) => onChange(ev.target.value)}
+          placeholder="Body"
+          style={{ minHeight: 200 }}
+        ></TextArea>
+      )}
+      {api?.body.length ? (
         <>
-          <h3>Pretty View</h3>
+          {!view && <h4>Pretty View</h4>}
           <Typography>
             <pre>
               {(function () {
                 try {
-                  return <>{JSON.stringify(JSON.parse(body), null, 2)}</>;
+                  return <>{JSON.stringify(JSON.parse(api?.body), null, 2)}</>;
                 } catch {
                   return <Alert message="Syntax Error" type="error" showIcon />;
                 }

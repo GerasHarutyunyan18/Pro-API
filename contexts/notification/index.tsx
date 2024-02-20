@@ -22,6 +22,7 @@ export const NotificationContextProvider: React.FC<{
       description: text,
       placement: "topLeft",
       type,
+      duration: 1
     });
   };
 

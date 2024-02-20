@@ -4,5 +4,6 @@ export interface User {
   surname?: string;
   nickname?: string;
   email?: string;
+  personalAccessKey?: string;
   url?: string;
 }

@@ -1,5 +1,5 @@
 import MyFriends from "../friends";
-import MyApis from "../myApis";
+import MyApps from "../myApps";
 import RecentlyViewedApis from "../recentlyViewedApis";
 
 import styles from "./userActions.module.scss";
@@ -8,7 +8,7 @@ export default function UserActions() {
   return (
     <div className={styles.container}>
       <div className={styles.items}>
-        <MyApis />
+        <MyApps />
       </div>
       <div className={styles.items}>
         <RecentlyViewedApis />

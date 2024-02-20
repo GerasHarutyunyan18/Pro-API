@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2%;
+
+  .infoContainer {
+    width: 25%;
+  }
+
+  .apiContainer {
+    width: 70%;
+  }
+}

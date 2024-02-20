@@ -4,7 +4,7 @@ import { useApiContext } from "@/contexts/apiContext";
 import { Select } from "antd";
 
 interface ApiTypesSelectorProps {
-  id: number;
+  id: string;
   current: HttpRequestMethods;
 }
 

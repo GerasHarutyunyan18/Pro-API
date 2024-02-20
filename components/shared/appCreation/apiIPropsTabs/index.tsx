@@ -4,7 +4,7 @@ import BodyTab from "../bodyTab";
 import HeaderTab from "../headerTab";
 
 interface ApiIPropsTabsProps {
-  id: number;
+  id: string;
 }
 
 export default function ApiIPropsTabs({ id }: ApiIPropsTabsProps) {
@@ -20,7 +20,7 @@ export default function ApiIPropsTabs({ id }: ApiIPropsTabsProps) {
         {
           label: "Body",
           key: "2",
-          children: <BodyTab />,
+          children: <BodyTab id={id}/>,
         },
         {
           label: "Headers",

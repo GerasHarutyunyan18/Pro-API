@@ -12,6 +12,7 @@ import { NotificationContextProvider } from "@/contexts/notification";
 
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { AppContextProvider } from "@/contexts/appContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,7 +37,9 @@ export default function RootLayout({
               <CustomHeader />
               <ProfileSidebarContextProvider>
                 <ApiContextProvider>
-                  <div className="contentContainer">{children}</div>
+                  <AppContextProvider>
+                    <div className="contentContainer">{children}</div>
+                  </AppContextProvider>
                 </ApiContextProvider>
               </ProfileSidebarContextProvider>
               <Footer />
