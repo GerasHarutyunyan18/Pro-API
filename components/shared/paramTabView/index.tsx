@@ -18,7 +18,7 @@ export default function ParamTabView({ id }: ParamTabViewProps) {
       <div>
         {api?.params.map((el) => {
           return (
-            <div className={styles.item}>
+            <div key={el.name} className={styles.item}>
               <p className={styles.name}>
                 {el.name}{" "}
                 <span

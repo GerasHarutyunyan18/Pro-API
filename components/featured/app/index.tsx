@@ -37,7 +37,7 @@ export default function AppPage({ id }: AppPageProps) {
       </div>
       <div className={styles.apiContainer}>
         {apis.map((el) => (
-          <AppPageApi id={el._id} />
+          <AppPageApi key={el._id} id={el._id} />
         ))}
       </div>
     </div>

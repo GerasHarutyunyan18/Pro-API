@@ -10,7 +10,7 @@ export default function ApiChecker() {
     <div className={styles.container}>
       <h3>Chek API`s (recomended)</h3>
       {apis.map((el) => (
-        <ApiCheckerItem id={el._id} />
+        <ApiCheckerItem key={el._id} id={el._id} />
       ))}
     </div>
   );

@@ -34,7 +34,7 @@ export default function AppPageApi({ id }: AppPageApisProps) {
         <BodyTab id={id} view />
         {api?.headers.map((el) => {
           return (
-            <div className={styles.headerItem}>
+            <div key={el.id} className={styles.headerItem}>
               <div className={styles.key}>{el.key}</div>
               <div className={styles.value}>{el.value}</div>
             </div>
