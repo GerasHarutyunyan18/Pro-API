@@ -10,7 +10,7 @@ type AppContextData = {
   apps: App[];
   currentApp: App | null;
   fetchApps: () => Promise<void>;
-  fetchPageApp: (id: string) => Promise<void>;
+  fetchPageApp: (id: string) => Promise<boolean>;
 };
 
 const AppContext = createContext<AppContextData | undefined>(undefined);
@@ -20,7 +20,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [apps, setApps] = useState<App[]>([]);
   const [currentApp, setCurrentApp] = useState<App | null>(null);
-  const {setApi} = useApiContext()
+  const { setApi } = useApiContext();
   const { currentUser } = useAuthContext();
 
   const fetchApps = async () => {
@@ -31,12 +31,14 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const fetchPageApp = async (id: string) => {
+  const fetchPageApp = async (id: string): Promise<boolean> => {
     const res = await AppService.getAppById(id);
     if (res.success) {
       setCurrentApp(res.data.app);
       setApi(res.data.apis);
+      return true;
     }
+    return false;
   };
 
   const contextValue: AppContextData = {

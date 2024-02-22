@@ -1,0 +1,22 @@
+.container {
+  margin-bottom: 30px;
+  .item {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    .name {
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .descriptionTitle {
+      opacity: 0.5;
+      font-size: 14px;
+    }
+
+    .description {
+      margin: 0;
+    }
+  }
+}

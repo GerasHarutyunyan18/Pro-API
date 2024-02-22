@@ -1,4 +1,4 @@
-import { HttpRequestMethods } from "./enums";
+import { HttpRequestMethods, ValueTypes } from "./enums";
 
 export const getMethodColor = (method?: HttpRequestMethods) => {
   switch (method) {
@@ -12,3 +12,16 @@ export const getMethodColor = (method?: HttpRequestMethods) => {
       return "#a8071a";
   }
 };
+
+export const getValueTypeColor = (type: ValueTypes) => {
+  switch (type) {
+    case ValueTypes.ANY:
+      return "#fadb14"
+    case ValueTypes.NUM:
+      return "#f5222d"
+    case ValueTypes.STR:
+      return "#389e0d"
+    case ValueTypes.BOOL:
+      return "#531dab"
+  }
+}

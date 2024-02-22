@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import Link from "next/link";
 import { Card, Empty } from "antd";
 import { ApiOutlined } from "@ant-design/icons";
 import { useAuthContext } from "@/contexts/auth";
@@ -34,7 +35,7 @@ export default function MyApps() {
               className={styles.item}
               type="inner"
               title={el.name}
-              extra={<a href="#">See</a>}
+              extra={<Link href={`/app/${el._id}`}>View</Link>}
             >
               <div className={styles.infoContainer}>
                 <div className={styles.appImg}>

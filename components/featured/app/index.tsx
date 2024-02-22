@@ -6,6 +6,7 @@ import { useAppContext } from "@/contexts/appContext";
 import AppPageInfo from "@/components/shared/appPageInfo";
 import AppPageApi from "@/components/shared/appPageApis";
 import { useApiContext } from "@/contexts/apiContext";
+import { useRouter } from "next/navigation";
 
 interface AppPageProps {
   id: string;
@@ -13,11 +14,19 @@ interface AppPageProps {
 
 export default function AppPage({ id }: AppPageProps) {
   const { fetchPageApp } = useAppContext();
+  const router = useRouter();
   const { apis } = useApiContext();
+
+  const fetchApp = async () => {
+    const res = await fetchPageApp(id);
+    if (!res) {
+      router.push("/404");
+    }
+  };
 
   useEffect(() => {
     if (id) {
-      fetchPageApp(id);
+      fetchApp();
     }
   }, [id]);
 
