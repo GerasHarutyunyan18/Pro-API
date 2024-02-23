@@ -1,17 +1,38 @@
 "use client";
-import Button from "@/components/primitives/button";
-import { ButtonTypes } from "@/constants/enums";
-import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
 import { Alert, Card, Input } from "antd";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import TextArea from "antd/es/input/TextArea";
+import Button from "@/components/primitives/button";
+import { ButtonTypes, HttpRequestMethods } from "@/constants/enums";
 import ApiIPropsTabs from "../apiIPropsTabs";
 import ApiTypesSelector from "../httpReqTypesSelector";
 import { useApiContext } from "@/contexts/apiContext";
 
 import styles from "./apiCreations.module.scss";
-import { useEffect } from "react";
 
 export default function APICreations() {
-  const { createEmptyApi, apis, removeApi, changeEndpoint } = useApiContext();
+  const {
+    createEmptyApi,
+    apis,
+    removeApi,
+    changeEndpoint,
+    setApi,
+    changeDescription,
+  } = useApiContext();
+
+  useEffect(() => {
+    setApi([
+      {
+        _id: "1",
+        method: HttpRequestMethods.GET,
+        endpoint: "",
+        params: [],
+        body: "",
+        headers: [],
+      },
+    ]);
+  }, []);
 
   return (
     <div
@@ -34,11 +55,24 @@ export default function APICreations() {
             />
           }
         >
-          {el.error && <Alert className={styles.error} showIcon message={el.error} type="error" />}
+          {el.error && (
+            <Alert
+              className={styles.error}
+              showIcon
+              message={el.error}
+              type="error"
+            />
+          )}
           <Input
             placeholder="Endpoint"
             value={el.endpoint}
             onChange={(event) => changeEndpoint(el._id, event.target.value)}
+          />
+          <TextArea
+            style={{ marginTop: 10 }}
+            placeholder="Description"
+            value={el.description}
+            onChange={(event) => changeDescription(el._id, event.target.value)}
           />
           <div>
             <ApiIPropsTabs id={el._id} />

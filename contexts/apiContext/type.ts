@@ -4,6 +4,7 @@ export interface Api {
   _id: string;
   method: HttpRequestMethods;
   appId?: string;
+  description?: string;
   endpoint: string;
   params: Parameter[];
   body: string;

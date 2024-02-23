@@ -1,19 +1,17 @@
 .container {
   width: 100%;
-  padding: 8px 16px;
-  border: 1px solid #ccc;
   border-radius: 5px;
   background-color: whitesmoke;
 
   .header {
-    border-bottom: 1px solid #ccc;
-    height: 30px;
-  }
+    height: 25px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
 
-  .content{
-    margin-top: 10px;
-
-    
+    .callBtn {
+      color: white;
+    }
   }
 
   .headerItem {
@@ -22,10 +20,11 @@
 
     .key,
     .value {
-      padding: 8px 16px;
+      padding: 4px 12px;
       width: 50%;
+      font-weight: 500;
+      border-radius: 5px;
       border: 1px solid #ccc;
-
     }
   }
 }

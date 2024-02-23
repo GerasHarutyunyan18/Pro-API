@@ -3,12 +3,12 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Api, Header, Parameter } from "./type";
 import { HttpRequestMethods, ValueTypes } from "@/constants/enums";
 import { useNotificationContext } from "../notification";
-import { DefaultHeader } from "@/constants/objects";
 
 type ApiContextData = {
   createEmptyApi: () => void;
   removeApi: (id?: string) => void;
   changeEndpoint: (id: string, value: string) => void;
+  changeDescription: (id: string, value: string) => void;
   changeHttpMethod: (id: string, value: HttpRequestMethods) => void;
   addParameter: (id: string, parameter: Parameter) => void;
   deleteParameter: (id: string, name: string) => void;
@@ -35,7 +35,7 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
       endpoint: "",
       params: [],
       body: "",
-      headers: DefaultHeader,
+      headers: [],
     },
   ]);
   const { openNotification } = useNotificationContext();
@@ -50,7 +50,7 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
       endpoint: "",
       params: [],
       body: "",
-      headers: DefaultHeader,
+      headers: [],
     };
     setApi((prev) => [...prev, newApi]);
   };
@@ -61,6 +61,22 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
     setApi(apis.filter((el) => el._id !== id));
+  };
+
+  // change api description
+  const changeDescription = (id: string, value: string) => {
+    if (!id) {
+      return;
+    }
+
+    setApi(
+      apis.map((el) => {
+        if (el._id === id) {
+          return { ...el, description: value };
+        }
+        return el;
+      })
+    );
   };
 
   // changing endpoint value of API with given `id` and `value`
@@ -283,6 +299,7 @@ export const ApiContextProvider: React.FC<{ children: React.ReactNode }> = ({
     createEmptyApi,
     removeApi,
     changeEndpoint,
+    changeDescription,
     changeHttpMethod,
     addParameter,
     getById,
