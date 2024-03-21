@@ -8,6 +8,7 @@ interface ButtonProps {
   text?: string;
   className?: string;
   children?: React.ReactNode;
+  disabled?: boolean;
   onClick?: () => any | void;
 }
 
@@ -17,13 +18,15 @@ export default function Button({
   htmlType = "button",
   className,
   children,
+  disabled = false,
   onClick = () => {},
 }: ButtonProps) {
   return (
     <button
       type={htmlType}
+      disabled={disabled}
       onClick={() => onClick()}
-      className={`btn btn-${type} ${className}`}
+      className={`btn btn-${type} ${className} ${disabled && "disabled"} `}
     >
       {text || children}
     </button>

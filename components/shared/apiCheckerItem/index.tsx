@@ -4,6 +4,7 @@ import styles from "./apiCheckerItem.module.scss";
 import { getMethodColor } from "@/constants/functions";
 import { Collapse, Tabs } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import ApiMethod from "@/components/primitives/apiMethod";
 
 interface ApiCheckerItemProps {
   id: string;
@@ -22,12 +23,7 @@ export default function ApiCheckerItem({ id }: ApiCheckerItemProps) {
           key: "1",
           label: (
             <div>
-              <span
-                className={styles.method}
-                style={{ background: getMethodColor(api?.method) }}
-              >
-                {api?.method}
-              </span>
+              <ApiMethod method={api?.method} size="lg"/>
               <span className={styles.endpoint}>{api?.endpoint}</span>
             </div>
           ),

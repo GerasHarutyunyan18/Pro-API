@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-    baseURL: 'https://pro-api-be.onrender.com',
+    baseURL: 'http://localhost:8000',
     timeout: 5000,
 });

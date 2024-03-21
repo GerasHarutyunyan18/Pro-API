@@ -10,6 +10,7 @@ import BodyTab from "../appCreation/bodyTab";
 
 import styles from "./appPageApis.module.scss";
 import ApiCaller from "../apiCaller";
+import ApiMethod from "@/components/primitives/apiMethod";
 
 interface AppPageApisProps {
   id: string;
@@ -37,17 +38,7 @@ export default function AppPageApi({ id }: AppPageApisProps) {
             label: (
               <div className={styles.header}>
                 <div>
-                  <b
-                    style={{
-                      background: getMethodColor(api?.method),
-                      color: "white",
-                      borderRadius: 5,
-                      marginRight: 5,
-                      padding: "0px 5px",
-                    }}
-                  >
-                    {api?.method}
-                  </b>{" "}
+                  <ApiMethod method={api?.method} size="sm" />
                   <b>{api?.endpoint}</b>
                 </div>
                 <div>

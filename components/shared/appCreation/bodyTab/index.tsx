@@ -7,9 +7,10 @@ import TextArea from "antd/es/input/TextArea";
 interface BodyTabProps {
   id: string;
   view?: boolean;
+  showPretty?: boolean;
 }
 
-export default function BodyTab({ id, view }: BodyTabProps) {
+export default function BodyTab({ id, view, showPretty = true }: BodyTabProps) {
   const { changeApiBody, getById } = useApiContext();
 
   const api = getById(id);
@@ -27,7 +28,7 @@ export default function BodyTab({ id, view }: BodyTabProps) {
           style={{ minHeight: 200 }}
         ></TextArea>
       )}
-      {api?.body.length ? (
+      {api?.body.length && showPretty ? (
         <>
           {!view && <h4>Pretty View</h4>}
           {view && (

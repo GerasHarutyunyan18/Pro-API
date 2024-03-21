@@ -7,6 +7,7 @@ interface ModalProps {
   onClose: () => void;
   children?: React.ReactNode;
   title?: string;
+  width?: string | number;
 }
 
 const CustomModal: React.FC<ModalProps> = ({
@@ -14,6 +15,7 @@ const CustomModal: React.FC<ModalProps> = ({
   onClose,
   children,
   title,
+  width = "auto",
 }) => {
   const handleClose = () => {
     onClose();
@@ -21,6 +23,7 @@ const CustomModal: React.FC<ModalProps> = ({
 
   return (
     <Modal
+      width={width}
       centered
       title={title}
       open={isOpen}

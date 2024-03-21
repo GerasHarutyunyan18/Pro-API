@@ -1,0 +1,15 @@
+.container {
+  width: 100%;
+  border: 1px solid var(--gray-100);
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: white;
+}
+
+.success {
+  background-color: var(--green-100);
+}
+
+.error {
+  background-color: var(--red-100);
+}

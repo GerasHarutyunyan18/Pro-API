@@ -1,3 +1,4 @@
+import { Header, Parameter } from "@/contexts/apiContext/type";
 import { HttpRequestMethods, ValueTypes } from "./enums";
 
 export const getMethodColor = (method?: HttpRequestMethods) => {
@@ -25,3 +26,27 @@ export const getValueTypeColor = (type: ValueTypes) => {
       return "#531dab"
   }
 }
+
+export const createApiFetch = (method: HttpRequestMethods, endpoint: string, body: string, headers: Header[], params: Parameter[]) => {
+  const headersObject: { [key: string]: string } = {};
+  headers.forEach(header => {
+    headersObject[header.key] = header.value;
+  });
+
+  let url = endpoint;
+  if (params.length > 0) {
+    const queryString = params.map(param => `${encodeURIComponent(param.name)}=${encodeURIComponent(param.type || '')}`).join('&');
+    url += `?${queryString}`;
+  }
+
+  const options: RequestInit = {
+    method,
+    headers: headersObject,
+    body: body,
+  };
+
+  return {
+    url: url,
+    options: options
+  };
+} 

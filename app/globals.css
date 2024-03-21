@@ -4,6 +4,9 @@
   --auth-text: #f0f0f0;
   --profile-sidebar: #001529;
   --body-bg: #15325b;
+  --gray-100: #cccccc;
+  --green-100: #389e0d;
+  --red-100: #cf1322;
 }
 
 [data-theme="light"] {
