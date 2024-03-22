@@ -11,7 +11,7 @@ import copy from "clipboard";
 import Button from "@/components/primitives/button";
 import { Spin, Typography } from "antd";
 import { CopyOutlined, LoadingOutlined } from "@ant-design/icons";
-import { createApiFetch } from "@/constants/functions";
+import { createApiFetch, timeAgo } from "@/constants/functions";
 import { useAppContext } from "@/contexts/appContext";
 import { useNotificationContext } from "@/contexts/notification";
 import MakedRequest from "../makedRequest";
@@ -48,7 +48,7 @@ export default function ApiCaller({ id }: ApiCallerProps) {
     setFetching(true);
     const obj = createApiFetch(
       api?.method,
-      "api/auth/signain",
+      "api/auth/signian",
       body,
       api?.headers,
       api?.params
@@ -58,9 +58,12 @@ export default function ApiCaller({ id }: ApiCallerProps) {
     const res = await fetch(`${currentApp?.domain}${obj.url}`, obj.options)
       .then((data) => {
         status = data.status;
-        console.log("data ===", data);
         try {
-          return data.json();
+          setActiveResponse(res);
+          setMakedRequests([
+            ...makedRequest,
+            { ...data.json(), status, createdAt: timeAgo(Date.now()) },
+          ]);
         } catch {
           return {
             success: false,
@@ -81,29 +84,24 @@ export default function ApiCaller({ id }: ApiCallerProps) {
           };
         }
       });
-
-    let result = { status: res.status, message: "" };
-    if (!res.ok) {
-      switch (res.status) {
-        case 404:
-          result.message = "Not found";
-          break;
-        default:
-          result = res as any;
-      }
-    }
     setActiveResponse(res);
-    setMakedRequests([...makedRequest, res]);
+    setMakedRequests([
+      ...makedRequest,
+      { ...res, status, createdAt: timeAgo(Date.now()) },
+    ]);
     setFetching(false);
   };
-
-  console.log("ss", makedRequest);
 
   const handleResponseCopy = () => {
     const jsonString = JSON.stringify(activeResponse);
     copy.copy(jsonString);
     openNotification("info", "Copied to clipboard.");
   };
+
+  const onRequestChange = (index: number) => {
+    setActiveResponse(makedRequest[index]);
+  };
+
   return (
     <div className={styles.container}>
       <div>
@@ -149,36 +147,36 @@ export default function ApiCaller({ id }: ApiCallerProps) {
           </Button>
         </div>
       </div>
-      <div className={styles.response}>
-        <h3>Response</h3>
-        {fetching && (
-          <div className={styles.loadinContainer}>
-            <Spin
-              indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />}
-            />
-          </div>
-        )}
-        {!fetching && activeResponse && (
-          <Typography className={styles.responseJson}>
-            <Button
-              onClick={handleResponseCopy}
-              className={styles.copyBtn}
-              type={ButtonTypes.SECONDARY}
-            >
-              COPY
-              <CopyOutlined />
-            </Button>
-            <pre>{JSON.stringify(activeResponse, null, 2)}</pre>
-          </Typography>
-        )}
-        <div className={styles.history}>
-          {makedRequest.map((el) => (
-            <div>
-              <MakedRequest el={el} />
+      {makedRequest.length && (
+        <div className={styles.response}>
+          <h3>Response</h3>
+          {fetching && (
+            <div className={styles.loadinContainer}>
+              <Spin
+                indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />}
+              />
             </div>
-          ))}
+          )}
+          {!fetching && activeResponse && (
+            <Typography className={styles.responseJson}>
+              <Button
+                onClick={handleResponseCopy}
+                className={styles.copyBtn}
+                type={ButtonTypes.SECONDARY}
+              >
+                COPY
+                <CopyOutlined />
+              </Button>
+              <pre>{JSON.stringify(activeResponse, null, 2)}</pre>
+            </Typography>
+          )}
+          <div className={styles.history}>
+            <div>
+              <MakedRequest onChange={onRequestChange} data={makedRequest} />
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -27,6 +27,14 @@ export const getValueTypeColor = (type: ValueTypes) => {
   }
 }
 
+export const timeAgo = (time: number): string => {
+  const currentTime = new Date().getTime();
+  const timeDifference = currentTime - time;
+  const minutes = Math.floor(timeDifference / (1000 * 60));
+  return minutes === 0 ? 'now' : `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+}
+
+
 export const createApiFetch = (method: HttpRequestMethods, endpoint: string, body: string, headers: Header[], params: Parameter[]) => {
   const headersObject: { [key: string]: string } = {};
   headers.forEach(header => {
