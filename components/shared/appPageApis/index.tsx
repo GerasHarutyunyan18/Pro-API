@@ -69,7 +69,7 @@ export default function AppPageApi({ id }: AppPageApisProps) {
           },
         ]}
       />
-      <CustomModal isOpen={callModalOpen} onClose={closeCallModal}>
+      <CustomModal  isOpen={callModalOpen} onClose={closeCallModal}>
         <ApiCaller id={id} />
       </CustomModal>
     </div>

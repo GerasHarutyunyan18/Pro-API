@@ -11,6 +11,7 @@ type AppContextData = {
   currentApp: App | null;
   fetchApps: () => Promise<void>;
   fetchPageApp: (id: string) => Promise<boolean>;
+  isFetchingPageApp: boolean;
 };
 
 const AppContext = createContext<AppContextData | undefined>(undefined);
@@ -20,6 +21,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [apps, setApps] = useState<App[]>([]);
   const [currentApp, setCurrentApp] = useState<App | null>(null);
+  const [isFetchingPageApp, setIsFetchingPageApp] = useState<boolean>(false);
   const { setApi } = useApiContext();
   const { currentUser } = useAuthContext();
 
@@ -32,12 +34,15 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const fetchPageApp = async (id: string): Promise<boolean> => {
+    setIsFetchingPageApp(true);
     const res = await AppService.getAppById(id);
     if (res.success) {
       setCurrentApp(res.data.app);
       setApi(res.data.apis);
+      setIsFetchingPageApp(false);
       return true;
     }
+    setIsFetchingPageApp(false);
     return false;
   };
 
@@ -46,6 +51,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
     currentApp,
     fetchApps,
     fetchPageApp,
+    isFetchingPageApp,
   };
 
   return (

@@ -5,6 +5,7 @@ import {
   HomeOutlined,
   LoginOutlined,
   MenuOutlined,
+  MessageOutlined,
   QuestionCircleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -64,6 +65,11 @@ export default function Header() {
             </Link>
           </div>
         )}
+        <div className={`${styles.headerItem} ${styles.hideItem}`}>
+          <Link href="/community" className={styles.headerLinks}>
+            Community <MessageOutlined />
+          </Link>
+        </div>
       </div>
       <div className={styles.rightSide}>
         <div className={`${styles.headerItem} ${styles.hideItem}`}>

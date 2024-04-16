@@ -1,0 +1,23 @@
+.container {
+  background-color: var(--gray-100);
+  padding: 8px 16px;
+  border-radius: 5px;
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .ownerSection {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      img {
+        border-radius: 100%;
+        width: 50px;
+      }
+    }
+  }
+}

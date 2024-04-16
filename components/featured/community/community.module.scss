@@ -1,0 +1,12 @@
+.bigContainer {
+  display: flex;
+  justify-content: center;
+
+  .container {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+  }
+}

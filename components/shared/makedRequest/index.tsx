@@ -1,10 +1,11 @@
 import { Space, Table, TableProps, Tag } from "antd";
 import styles from "./makedRequest.module.scss";
 import { useEffect, useState } from "react";
+import { Key, RowSelectMethod } from "antd/es/table/interface";
 
 interface MakedRequestProps {
   data: any;
-  onChange: (index: number) => void;
+  onRowClick: (index: number) => void;
 }
 interface DataType {
   time: string;
@@ -28,7 +29,7 @@ const columns: TableProps<DataType>["columns"] = [
   },
 ];
 
-export default function MakedRequest({ data, onChange }: MakedRequestProps) {
+export default function MakedRequest({ data, onRowClick }: MakedRequestProps) {
   const [prettyData, setPrettyData] = useState<DataType[]>();
 
   useEffect(() => {
@@ -39,11 +40,20 @@ export default function MakedRequest({ data, onChange }: MakedRequestProps) {
     );
   }, [data]);
 
-  // const rowConfig = {
-  //   onChange: (record: DataType, index: number) => {
-  //     onChange2(index);
-  //   },
-  // };
-
-  return <Table columns={columns} dataSource={prettyData} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={prettyData}
+      onRow={(record, rowIndex) => {
+        return {
+          onClick: (event) => {
+            if (!rowIndex) {
+              return;
+            }
+            onRowClick(rowIndex);
+          },
+        };
+      }}
+    />
+  );
 }

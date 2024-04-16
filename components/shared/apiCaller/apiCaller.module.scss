@@ -4,6 +4,10 @@
   max-height: 600px;
   overflow-y: auto;
 
+  .infoSection{
+    min-width: 400px;
+  }
+
   .header {
     display: flex;
     align-items: center;

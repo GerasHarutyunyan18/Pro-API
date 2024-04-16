@@ -57,6 +57,10 @@ a {
   height: 200px !important;
 }
 
+.ql-container {
+  background-color: var(--gray-100);
+}
+
 ::-webkit-scrollbar {
   border-radius: 1px;
   width: 5px;

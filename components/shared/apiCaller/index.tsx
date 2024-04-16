@@ -48,7 +48,7 @@ export default function ApiCaller({ id }: ApiCallerProps) {
     setFetching(true);
     const obj = createApiFetch(
       api?.method,
-      "api/auth/signian",
+      "api/auth/signin",
       body,
       api?.headers,
       api?.params
@@ -56,15 +56,14 @@ export default function ApiCaller({ id }: ApiCallerProps) {
 
     let status;
     const res = await fetch(`${currentApp?.domain}${obj.url}`, obj.options)
-      .then((data) => {
-        status = data.status;
+      .then(async (data) => {
+        status = await data.status;
         try {
-          setActiveResponse(res);
-          setMakedRequests([
-            ...makedRequest,
-            { ...data.json(), status, createdAt: timeAgo(Date.now()) },
-          ]);
-        } catch {
+          const result = await data.json();
+          console.log("result ===", result);
+          return result;
+        } catch (err) {
+          console.log("err =", err);
           return {
             success: false,
             message:
@@ -104,7 +103,7 @@ export default function ApiCaller({ id }: ApiCallerProps) {
 
   return (
     <div className={styles.container}>
-      <div>
+      <div className={styles.infoSection}>
         <div className={styles.header}>
           <ApiMethod method={api?.method} size="lg" />
           <b>{api?.endpoint}</b>
@@ -120,7 +119,7 @@ export default function ApiCaller({ id }: ApiCallerProps) {
           )}
           <div>
             <p>Headers</p>
-            {[{ key: "Neighbors API key" }].map((el) => (
+            {api?.headers.map((el) => (
               <div className={styles.headerItem}>
                 <Input placeholder={`${el.key} (Header item)`} />
               </div>
@@ -128,10 +127,7 @@ export default function ApiCaller({ id }: ApiCallerProps) {
           </div>
           <div>
             <p>Params</p>
-            {[
-              { name: "login", type: ValueTypes.ANY },
-              { name: "password", type: ValueTypes.STR },
-            ].map((el) => (
+            {api?.params?.map((el) => (
               <div className={styles.paramItem}>
                 <label>{`${el.name} (parameter) ${el.type}`}</label>
                 <Input placeholder={`${el.name} (parameter) ${el.type}`} />
@@ -147,7 +143,7 @@ export default function ApiCaller({ id }: ApiCallerProps) {
           </Button>
         </div>
       </div>
-      {makedRequest.length && (
+      {makedRequest && (
         <div className={styles.response}>
           <h3>Response</h3>
           {fetching && (
@@ -172,7 +168,7 @@ export default function ApiCaller({ id }: ApiCallerProps) {
           )}
           <div className={styles.history}>
             <div>
-              <MakedRequest onChange={onRequestChange} data={makedRequest} />
+              <MakedRequest onRowClick={onRequestChange} data={makedRequest} />
             </div>
           </div>
         </div>

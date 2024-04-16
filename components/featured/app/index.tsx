@@ -7,13 +7,15 @@ import AppPageInfo from "@/components/shared/appPageInfo";
 import AppPageApi from "@/components/shared/appPageApis";
 import { useApiContext } from "@/contexts/apiContext";
 import { useRouter } from "next/navigation";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 interface AppPageProps {
   id: string;
 }
 
 export default function AppPage({ id }: AppPageProps) {
-  const { fetchPageApp } = useAppContext();
+  const { fetchPageApp, isFetchingPageApp } = useAppContext();
   const router = useRouter();
   const { apis } = useApiContext();
 
@@ -32,14 +34,20 @@ export default function AppPage({ id }: AppPageProps) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.infoContainer}>
-        <AppPageInfo />
-      </div>
-      <div className={styles.apiContainer}>
-        {apis.map((el) => (
-          <AppPageApi key={el._id} id={el._id} />
-        ))}
-      </div>
+      {isFetchingPageApp ? (
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} />} />
+      ) : (
+        <>
+          <div className={styles.infoContainer}>
+            <AppPageInfo />
+          </div>
+          <div className={styles.apiContainer}>
+            {apis.map((el) => (
+              <AppPageApi key={el._id} id={el._id} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

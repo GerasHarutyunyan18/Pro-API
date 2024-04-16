@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { Modal } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 
 interface ModalProps {
   isOpen: boolean;
